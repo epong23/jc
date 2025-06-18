@@ -1,0 +1,187 @@
+W2 D6 S3 1
+
+
+
+
+using System;
+using System.Data.SqlClient;
+
+public class Program{
+    public static string connectionString="User Id=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Excrypt=False;";
+    public static void Main(string[] args){
+        using(SqlConnection connection=new SqlConnection(connectionString)){
+            try{
+                connection.Open();
+                Console.WriteLine("Connection successful!");
+                Console.WriteLine("\nSelect an option:");
+                Console.WriteLine("1. Add Product");
+                Console.WriteLine("2. Search Product");
+                Console.WriteLine("3. Edit Product");
+
+                string option=Console.ReadLine();
+                switch(option){
+                    case "1":
+                    Console.WriteLine("Enter product details:");
+                    Console.Write("ID: ");
+                    int id=int.Parse(Console.ReadLine());
+                    Console.Write("Name: ");
+                    string name=Console.ReadLine();
+                    Console.Write("Rate: ");
+                    decimal rate=decimal.Parse(Console.ReadLine());
+                    Console.Write("Stock: ");
+                    int stock=int.Parse(Console.ReadLine());
+                    AddProduct(connection,id,name,rate,stock);
+                    break;
+                    case "2":
+                    Console.WriteLine("Enter the product to search:");
+                    string searchTerm=Console.ReadLine();
+                    SearchProduct(connection,searchTerm);
+                    break;
+                    case "3":
+                    EditProduct(connection);
+                    break;
+                    default:
+                    Console.WriteLine("Invalid option.");
+                    break; 
+                }
+            }
+            catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+
+    public static void AddProduct(SqlConnection connection, int id,string name,decimal rate,int stock){
+        string query="insert into Grocery(ID,Name,Rate,Stock) values (@ID,@Name,@Rate,@Stock)";
+        using(SqlCommand cmd=new SqlCommand(query,connection)){
+            cmd.Parameters.AddWithValue("@ID",id);
+            cmd.Parameters.AddWithValue("@Name",name);
+            cmd.Parameters.AddWithValue("@Rate",rate);
+            cmd.Parameters.AddWithValue("@Stock",stock);
+
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Grocery added successfully!");
+        }
+    } 
+
+    public static void SearchProduct(SqlConnection connection, string searchTerm){
+        string query="select * from Grocery where Name=@Name";
+        using(SqlCommand cmd=new SqlCommand(query,connection)){
+            cmd.Parameters.AddWithValue("@Name",searchTerm);
+            SqlDataReader reader=cmd.ExecuteReader();
+            bool found=false;
+            while(reader.Read()){
+                Console.WriteLine("GroceryID\tName\tRate\tStock");
+                Console.WriteLine($"{reader[0]}\t{reader[1]}\t{reader[2]}\t{reader[3]}");
+                found=true;
+            }
+            if(!found){
+                Console.WriteLine("Product not found");
+            }
+            reader.Close();
+        }
+    }
+
+    public static void EditProduct(SqlConnection connection){
+                Console.WriteLine("Enter product ID to update:");
+                int id=int.Parse(Console.ReadLine());
+                Console.Write("New Name: ");
+                string name=Console.ReadLine();
+                Console.Write("New Rate: ");
+                decimal rate=decimal.Parse(Console.ReadLine());
+                Console.Write("New Stock: ");
+                int stock=int.Parse(Console.ReadLine());
+                string query="update Grocery set Name=@Name,Rate=@Rate,Stock=@Stock where ID=@ID";
+                    using(SqlCommand cmd=new SqlCommand(query,connection)){
+                    cmd.Parameters.AddWithValue("@ID",id);
+                    cmd.Parameters.AddWithValue("@Name",name);
+                    cmd.Parameters.AddWithValue("@Rate",rate);
+                    cmd.Parameters.AddWithValue("@Stock",stock);
+                    int rows=cmd.ExecuteNonQuery();
+                    if(rows>0){Console.WriteLine("Grocery updated successfully!");}
+                    else{Console.WriteLine("No such Grocery ID found.");}
+                }
+    }
+    }
+===============================================================================================================================================
+W2 D6 S3 2(4 test cases will get passed and ull get 9 out of 10)👇
+
+
+using System;
+using System.Data.SqlClient;
+
+public class Program{
+    public static void Main(string[] args){
+
+    }
+
+    public static void AddCourse(SqlConnection connection,int courseId,string courseName,string courseDescription,string instructorName){
+
+    }
+
+    public static void DisplayAllCourses(SqlConnection connection){
+
+    }
+
+    public static void EditCourse(SqlConnection connection,int courseId,string courseName,string courseDescription,string instructorName){
+
+    }
+
+    public static void DeleteCourse(SqlConnection connection,int courseId){
+
+    }
+    
+}
+=======================================================================================================================
+
+
+
+W2 D6 S3 3(same ull get 4 test cases passed and 9 out of 10)👇
+
+using System;
+
+using System.Data.SqlClient;
+
+ 
+
+public class Program{
+
+    public static void Main(string [] args){
+
+ 
+
+    }
+
+ 
+
+    public static void AddTrainer(SqlConnection connection,int trainerId,string trainerName,string expertise,string contactInfo){
+
+ 
+
+    }
+
+ 
+
+    public static void DisplayAllTrainers(SqlConnection connection){
+
+ 
+
+    }
+
+ 
+
+    public static void EditTrainer(SqlConnection connection,int trainerId,string trainerName,string expertise,string contactInfo){
+
+ 
+
+    }
+
+ 
+
+    public static void DeleteTrainer(SqlConnection connection,int trainerId){
+
+       
+
+    }
+
+}
