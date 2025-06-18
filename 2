@@ -1,0 +1,181 @@
+W2 D6 S2 1👇
+
+
+
+
+using System;
+using System.Data.SqlClient;
+
+
+public class Program{
+    public static void Main(string[] args){
+        try{
+            string TableCreationQuery="create Table Crop(CropId int primary key,CropName varchar(50),CropType varchar(50),HarvestSeason varchar(50))";
+            string ConnectionString="User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False;";
+            SqlConnection connection=new SqlConnection(ConnectionString);
+            connection.Open();
+            Console.WriteLine("Connection successful!");
+            SqlCommand command=new SqlCommand(TableCreationQuery,connection);
+            command.ExecuteNonQuery();
+            AddCrop(connection,1,"Rice","dry","Summer");
+            DisplayAllCrops(connection);
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    public static void AddCrop(SqlConnection connection,int cropId,string cropName,string cropType,string harvestSeason){
+        try{
+            string query="insert into Crop(CropId,CropName,CropType,HarvestSeason)"+"Values(@CropId,@CropName,@CropType,@HarvestSeason)";
+            SqlCommand command=new SqlCommand(query,connection);
+            command.Parameters.AddWithValue("@CropId",cropId);
+            command.Parameters.AddWithValue("@CropName",cropName);
+            command.Parameters.AddWithValue("@CropType",cropType);
+            command.Parameters.AddWithValue("@HarvestSeason",harvestSeason);
+            command.ExecuteNonQuery();
+            Console.WriteLine("Crop added successfully!");
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+    public static void DisplayAllCrops(SqlConnection connection){
+        try{
+            string query="select * from Crop";
+            SqlCommand command=new SqlCommand(query,connection);
+            SqlDataReader reader=command.ExecuteReader();
+            Console.WriteLine("Crop Records:");
+            Console.WriteLine($"ID\tName\tType\tSeason");
+            while(reader.Read()){
+                Console.WriteLine($"{reader[0]}\t{reader[1]}\t{reader[2]}\t{reader[3]}\t");
+            }
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    public static void EditCrop(SqlConnection connection,int cropId,string cropName,string cropType,string harvestSeason){
+        try{
+            string query="update Crop set CropName=@CropName,CropType=@CropType,HarvestSeason=@HarvestSeason where CropId=@CropId";
+            SqlCommand command=new SqlCommand(query,connection);
+            command.Parameters.AddWithValue("@CropId",cropId);
+            command.Parameters.AddWithValue("@CropName",cropName);
+            command.Parameters.AddWithValue("@CropType",cropType);
+            command.Parameters.AddWithValue("@HarvestSeason",harvestSeason);
+            command.ExecuteNonQuery();
+            Console.WriteLine("Crop updated successfully!");
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+            
+}
+==========================================================================================================
+W2 D6 S2 2 👇
+
+
+
+
+using System;
+using System.Data.SqlClient;
+
+public class Program{
+    public static void Main(string[] args){
+        try{
+            string connectionString="User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False;";
+            string TableCreationQuery="create table Grocery(GroceryId int primary key, Name varchar(50), Rate decimal(10,2), Stock int)";
+            SqlConnection connection=new SqlConnection(connectionString);
+            connection.Open();
+            Console.WriteLine("Connection Successful!");
+            SqlCommand command=new SqlCommand(TableCreationQuery,connection);
+            command.ExecuteNonQuery();
+            AddGrocery(connection,1,"brush",1000,5);
+            DisplayAllGroceries(connection);
+            connection.Close();
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    public static void AddGrocery(SqlConnection connection, int groceryId,string name,decimal rate,int stock){
+        try{
+            string query="insert into Grocery(GroceryId,Name,Rate,Stock)"+"values(@GroceryId,@Name,@Rate,@Stock)";
+            SqlCommand command=new SqlCommand(query,connection);
+
+            command.Parameters.AddWithValue("@GroceryId",groceryId);
+            command.Parameters.AddWithValue("@Name",name);
+            command.Parameters.AddWithValue("@Rate",rate);
+            command.Parameters.AddWithValue("@Stock",stock);
+
+            command.ExecuteNonQuery();
+            //Console.WriteLine("Grocery added successfully!");
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+
+     public static void DisplayAllGroceries(SqlConnection connection){
+        try{
+            string query="select * from Grocery";
+            SqlCommand command=new SqlCommand(query,connection);
+            SqlDataReader reader=command.ExecuteReader();
+
+            Console.WriteLine("Grocery Records:");
+            Console.WriteLine("ID\tName\tRate\tStock");
+            while(reader.Read()){
+                Console.WriteLine($"{reader[0]}\t{reader[1]}\t{reader[2]}\t{reader[3]}");
+            }
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+    public static void EditGrocery(SqlConnection connection, int groceryId,string name,decimal rate,int stock){
+        try{
+            string query="update Grocery set Name=@Name,Rate=@Rate,Stock=@Stock where GroceryId=@GroceryId";
+            SqlCommand command=new SqlCommand(query,connection);
+
+            command.Parameters.AddWithValue("@GroceryId",groceryId);
+            command.Parameters.AddWithValue("@Name",name);
+            command.Parameters.AddWithValue("@Rate",rate);
+            command.Parameters.AddWithValue("@Stock",stock);
+
+            command.ExecuteNonQuery();
+            Console.WriteLine("Grocery updated successfully!");
+        }
+        catch(SystemException e){
+            Console.WriteLine(e.Message);
+        }
+    }
+
+
+}
+======================================================================================================
+W2 D6 S2 3 👇
+
+
+
+
+using System;
+using System.Data.SqlClient;
+
+public class Program{
+    public static void Main(string[] args){
+
+    }
+
+    public static void AddEmployee(SqlConnection connection){
+
+    }
+
+    public static void DeleteEmployee(SqlConnection connection){
+        
+    }
+}
+
+
